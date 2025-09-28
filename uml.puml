@@ -1,0 +1,54 @@
+@startuml
+hide empty members
+
+class Program #FFFF00 {
+    +static void Main(string[] args)
+}
+
+class JsonController {
+    -IEnumerable<IJsonProcessor> _processors
+    +ActionResult Post(string jsonString)
+    -object? ProcessJsonString(string jsonString)
+}
+
+interface IJsonProcessor {
+    +bool CanProcess(JObject json)
+    +object? Process(JObject json)
+}
+
+class UserJsonProcessor {
+    +bool CanProcess(JObject json)
+    +object? Process(JObject json)
+}
+
+class ProductJsonProcessor {
+    +bool CanProcess(JObject json)
+    +object? Process(JObject json)
+}
+
+class TodoItemProcessor #00FF00 {
+    +bool CanProcess(JObject json)
+    +object? Process(JObject json)
+}
+
+class User {
+    +string? Name { get; init; }
+    +string? Email { get; init; }
+}
+
+class Product {
+    +string? ProductName { get; init; }
+    +decimal Price { get; init; }
+}
+
+class TodoItem #00FF00  {
+    +string? Title { get; init; }
+    +bool IsCompleted { get; init; }
+}
+
+Program --> JsonController : Creates
+JsonController --> IJsonProcessor : Uses
+IJsonProcessor <|.. UserJsonProcessor : Implements
+IJsonProcessor <|.. ProductJsonProcessor : Implements
+IJsonProcessor <|.. TodoItemProcessor #00FF00 : Implements
+@enduml
